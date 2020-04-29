@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using NossoMercadoLivre.APP.Validators;
+using NossoMercadoLivre.API.Validators;
 using NossoMercadoLivre.Domain.DTOs;
 using NossoMercadoLivre.Domain.Entities;
-using NossoMercadoLivre.Domain.Interfaces.Services;
+using NossoMercadoLivre.Domain.Interfaces.Repositories;
 
 namespace NossoMercadoLivre.API.Controllers
 {
@@ -18,18 +18,20 @@ namespace NossoMercadoLivre.API.Controllers
     {
 
         [HttpPost]
-        public ActionResult<User> NewUser([FromServices] IUserService userService, [FromBody] UserDTO user)
+        public ActionResult<User> NewUser([FromServices] IUserRepository userRepository, [FromBody] UserDTO userDto)
         {
             UserDTOValidator validator = new UserDTOValidator();
-            var validateResult = validator.Validate(user);
+            var validateResult = validator.Validate(userDto);
             if (validateResult.IsValid)
             {
-                userService.CreateUser(user);
+                var passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
+                var user = new User(userDto.Login, passwordHash, DateTime.Now);
+                userRepository.Insert(user);
                 return Ok();
             }
             else
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, validateResult);
+                return BadRequest(validateResult);
             }
 
         }

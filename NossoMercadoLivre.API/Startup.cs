@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,9 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NossoMercadoLivre.APP.AutoMapper;
-using NossoMercadoLivre.CrossCutting.IoC;
+using NossoMercadoLivre.Domain.Interfaces.Repositories;
 using NossoMercadoLivre.Impl.Context;
+using NossoMercadoLivre.Impl.Repository;
 
 namespace NossoMercadoLivre.API
 {
@@ -33,11 +32,8 @@ namespace NossoMercadoLivre.API
             object p = services.AddDbContext<MLContext>(opt =>
                opt.UseInMemoryDatabase("ML"));
 
-            new DependencyInjection(services).RegisterServices();
-            new DependencyInjection(services).RegisterRepositories();
+            services.AddScoped<IUserRepository, UserRepository>();
 
-            services.AddAutoMapper(typeof(Startup));
-            services.AddAutoMapper(c => c.AddProfile<AutoMapperConfig>(), typeof(Startup));
 
             services.AddControllers();
         }

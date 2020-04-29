@@ -24,7 +24,7 @@ namespace NossoMercadoLivre.CrossCutting.IoC
         }
         public void RegisterRepositories()
         {
-            _service.AddScoped<IUserRepository, UserRepository>();
+            
         }
     }
 }

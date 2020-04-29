@@ -9,8 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NossoMercadoLivre.APP\NossoMercadoLivre.APP.csproj" />
-    <ProjectReference Include="..\NossoMercadoLivre.Domain\NossoMercadoLivre.Domain.csproj" />
     <ProjectReference Include="..\NossoMercadoLivre.Impl\NossoMercadoLivre.Impl.csproj" />
   </ItemGroup>
 
