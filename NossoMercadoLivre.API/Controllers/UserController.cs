@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NossoMercadoLivre.APP.Validators;
@@ -19,16 +20,18 @@ namespace NossoMercadoLivre.API.Controllers
         [HttpPost]
         public ActionResult<User> NewUser([FromServices] IUserService userService, [FromBody] UserDTO user)
         {
-            try
+            UserDTOValidator validator = new UserDTOValidator();
+            var validateResult = validator.Validate(user);
+            if (validateResult.IsValid)
             {
-                var result = userService.CreateUser(user);
+                userService.CreateUser(user);
+                return Ok();
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, validateResult);
+            }
 
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
         }
 
     }

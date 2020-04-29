@@ -12,41 +12,22 @@ using System.Text;
 
 namespace NossoMercadoLivre.APP.Services
 {
-    public class UserService : BaseService<User>, IUserService
+    public class UserService : IUserService
     {
         private readonly IUserRepository _repository;
-        public UserService(IUserRepository repository) : base(repository) 
+        public UserService(IUserRepository repository)
         {
             _repository = repository;
         }
 
-        public User CreateUser(UserDTO userDTO)
+        public void CreateUser(UserDTO userDTO)
         {
-            UserDTOValidator validator = new UserDTOValidator();
-            var result = validator.Validate(userDTO);
-            if(result.IsValid)
-            {
-                var user = new User() { Login = userDTO.Login };
+            var passwordHash = BCrypt.Net.BCrypt.HashPassword(userDTO.Password);
+            var user = new User(userDTO.Login, passwordHash, DateTime.Now);
+            _repository.Insert(user);
 
-                var passwordHash = PasswordCript(userDTO.Password);
-                user.CreateDate = DateTime.Now;
-                user.PasswordHash = passwordHash;
-                _repository.Insert(user);
-
-                user.PasswordHash = "";
-                return user;
-               
-            }
-            else
-            {
-                throw new Exception(result.ToString());
-            }
         }
 
-        private string PasswordCript(string password)
-        {
-            return Helper.GetSha256Hash(new SHA256CryptoServiceProvider(), password);
-        }
 
     }
 }

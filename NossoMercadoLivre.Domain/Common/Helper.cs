@@ -22,7 +22,6 @@ namespace NossoMercadoLivre.Domain.Common
             {
                 sBuilder.Append(data[i].ToString("x2"));
             }
-
             // Return the hexadecimal string.
             return sBuilder.ToString();
         }

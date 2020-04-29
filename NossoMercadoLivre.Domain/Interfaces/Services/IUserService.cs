@@ -6,8 +6,8 @@ using System.Text;
 
 namespace NossoMercadoLivre.Domain.Interfaces.Services
 {
-    public interface IUserService : IService<User>
+    public interface IUserService
     {
-        User CreateUser(UserDTO userDTO);
+        void CreateUser(UserDTO userDTO);
     }
 }

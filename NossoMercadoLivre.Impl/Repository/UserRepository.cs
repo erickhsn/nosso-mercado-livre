@@ -7,10 +7,18 @@ using System.Text;
 
 namespace NossoMercadoLivre.Impl.Repository
 {
-    public class UserRepository : BaseRepository<User>, IUserRepository
+    public class UserRepository : IUserRepository
     {
-        public UserRepository(MLContext context) : base(context)
+        private readonly MLContext _context;
+        public UserRepository(MLContext context)
         {
+            _context = context;
+        }
+
+        public void Insert(User user)
+        {
+            _context.Set<User>().Add(user);
+            _context.SaveChanges();
         }
 
     }
