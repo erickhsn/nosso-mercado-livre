@@ -17,10 +17,9 @@ namespace NossoMercadoLivre.API.Controllers
     {
 
         [HttpPost]
-        public ActionResult<User> NewUser([FromServices] IUserRepository userRepository, [FromBody] UserDTO userDto)
+        public ActionResult<User> NewUser([FromServices] IUserRepository userRepository, [FromBody] UserDTO userDTO)
         {
-            var passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
-            var user = new User(userDto.Login, passwordHash, DateTime.Now);
+            var user = new User(userDTO);
             userRepository.Insert(user);
             return Ok();
         }
