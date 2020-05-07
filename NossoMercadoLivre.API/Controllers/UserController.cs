@@ -19,10 +19,9 @@ namespace NossoMercadoLivre.API.Controllers
         [HttpPost]
         public ActionResult<User> NewUser([FromServices] IUserRepository userRepository, [FromBody] UserDTO userDTO)
         {
-            var user = new User(userDTO);
+            var user = new User(userDTO.Login, userDTO.Password);
             userRepository.Insert(user);
             return Ok();
         }
-
     }
 }

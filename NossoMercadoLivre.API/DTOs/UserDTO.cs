@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NossoMercadoLivre.Impl.Validator;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
@@ -12,7 +13,7 @@ namespace NossoMercadoLivre.Domain.DTOs
       
         [Required(ErrorMessage = "Usuario não pode ser nulo!")]
         [EmailAddress(ErrorMessage = "O usuario deve ter formato de email!")]
-        [UniqueLoginValidator]
+        [UniqueLoginValidator(ErrorMessage = "O login já está sendo usado!")]
         [DataMember(Name = "login")]
         public string Login { get; set; }
 
