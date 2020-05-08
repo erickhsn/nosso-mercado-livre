@@ -8,5 +8,7 @@ namespace NossoMercadoLivre.Domain.Interfaces.Repositories
     public interface IUserRepository
     {
         public void Insert(User user);
+
+        public User GetByLogin(string login);
     }
 }

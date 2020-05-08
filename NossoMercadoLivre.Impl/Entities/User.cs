@@ -1,6 +1,4 @@
-﻿using BCrypt.Net;
-using NossoMercadoLivre.Domain.DTOs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,18 +12,13 @@ namespace NossoMercadoLivre.Domain.Entities
 
 
         // Password deve ser passado sem criptografia
-        public User(UserDTO userDTO)
-        {
-            this.Login = userDTO.Login;
-            this.PasswordHash = BCrypt.Net.BCrypt.HashPassword(userDTO.Password);
-            this.CreateDate = DateTime.Now;
-        }
+
 
         // Password deve ser passado sem criptografia
         public User(string login, string password)
         {
             this.Login = login;
-            this.PasswordHash = password;
+            this.PasswordHash = BCrypt.Net.BCrypt.HashPassword(password);
             this.CreateDate = DateTime.Now;
         }
 

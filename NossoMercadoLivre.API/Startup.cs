@@ -30,7 +30,7 @@ namespace NossoMercadoLivre.API
         public void ConfigureServices(IServiceCollection services)
         {
             object p = services.AddDbContext<MLContext>(opt =>
-               opt.UseInMemoryDatabase("ML"));
+               opt.UseNpgsql(Configuration.GetConnectionString("DB_CONNECTION")));
 
             services.AddScoped<IUserRepository, UserRepository>();
 
