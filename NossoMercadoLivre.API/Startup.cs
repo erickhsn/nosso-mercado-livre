@@ -14,6 +14,8 @@ using Microsoft.Extensions.Logging;
 using NossoMercadoLivre.Domain.Interfaces.Repositories;
 using NossoMercadoLivre.Impl.Context;
 using NossoMercadoLivre.Impl.Repository;
+using NossoMercadoLivre.Impl.Repository.Impl;
+using NossoMercadoLivre.Impl.Repository.Interfaces;
 
 namespace NossoMercadoLivre.API
 {
@@ -33,6 +35,7 @@ namespace NossoMercadoLivre.API
                opt.UseNpgsql(Configuration.GetConnectionString("DB_CONNECTION")));
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 
             services.AddControllers();
